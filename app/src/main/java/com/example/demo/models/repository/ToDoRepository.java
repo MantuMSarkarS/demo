@@ -12,7 +12,7 @@ import com.example.demo.models.entity.ToDo;
 import java.util.List;
 
 public class ToDoRepository {
-
+    // repository class
     private ToDoDAO toDoDAO;
     private LiveData<List<ToDo>> allItems;
 
