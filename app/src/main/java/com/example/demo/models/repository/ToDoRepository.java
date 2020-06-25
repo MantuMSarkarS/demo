@@ -13,24 +13,24 @@ import java.util.List;
 
 public class ToDoRepository {
     // repository class
-    private ToDoDAO toDoDAO;
-    private LiveData<List<ToDo>> allItems;
+    private ToDoDAO mToDoDAO;
+    private LiveData<List<ToDo>> mAllItems;
 
     public ToDoRepository(Application application) {
         ToDoDatabase toDoDatabase = ToDoDatabase.getInstance(application);
-        toDoDAO = toDoDatabase.toDoDAO();
-        allItems = toDoDAO.getAllItems();
+        mToDoDAO = toDoDatabase.toDoDAO();
+        mAllItems = mToDoDAO.getAllItems();
     }
 
     public void insert(ToDo toDoEntity) {
-        new InsertIntoAsynctask(toDoDAO).execute(toDoEntity);
+        new InsertIntoAsynctask(mToDoDAO).execute(toDoEntity);
     }
     public void update(ToDo toDoEntity) {
-        new UpdateIntoAsynctask(toDoDAO).execute(toDoEntity);
+        new UpdateIntoAsynctask(mToDoDAO).execute(toDoEntity);
     }
 
     public LiveData<List<ToDo>> getAllItems() {
-        return allItems;
+        return mAllItems;
     }
 
     public static class InsertIntoAsynctask extends AsyncTask<ToDo, Void, Void> {

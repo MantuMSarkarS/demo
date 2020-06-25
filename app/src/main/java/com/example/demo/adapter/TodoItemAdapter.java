@@ -18,8 +18,7 @@ import java.util.List;
 
 public class TodoItemAdapter extends RecyclerView.Adapter<TodoItemAdapter.MyViewHolder> {
 
-    private static final String TAG = "todo";
-    private List<ToDo> todo=new ArrayList<>();
+    private List<ToDo> mTtodo=new ArrayList<>();
     OnItemClickListerner mListener;
     public interface OnItemClickListerner{
         void OnItemClick(ToDo toDos);
@@ -40,7 +39,7 @@ public class TodoItemAdapter extends RecyclerView.Adapter<TodoItemAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
-        final ToDo currentItem=todo.get(position);
+        final ToDo currentItem=mTtodo.get(position);
         holder.title.setText(currentItem.getTitle());
         holder.description.setText(currentItem.getDescription());
         if(currentItem.getPriority()==0){
@@ -52,11 +51,11 @@ public class TodoItemAdapter extends RecyclerView.Adapter<TodoItemAdapter.MyView
 
     @Override
     public int getItemCount() {
-        return todo.size();
+        return mTtodo.size();
     }
 
     public void setTodo(List<ToDo> toDoEntityList){
-        this.todo=toDoEntityList;
+        this.mTtodo=toDoEntityList;
         notifyDataSetChanged();
     }
 
@@ -72,13 +71,13 @@ public class TodoItemAdapter extends RecyclerView.Adapter<TodoItemAdapter.MyView
                 @Override
                 public void onClick(View v) {
                     int pos=getAdapterPosition();
-                    mListener.OnItemClick(todo.get(pos));
+                    mListener.OnItemClick(mTtodo.get(pos));
                 }
             });
         }
     }
     public void updateList(List<ToDo> list){
-        this.todo = list;
+        this.mTtodo = list;
         notifyDataSetChanged();
     }
 }

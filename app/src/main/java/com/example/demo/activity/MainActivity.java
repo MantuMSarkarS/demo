@@ -27,22 +27,20 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 
-    private ToDo updatetoDo;
-    private TodoItemAdapter itemAdapter;
-    private static final String TAG = "todo";
-    private ToDoViewModel viewModel;
-    private RecyclerView recyclerView;
-    ActivityMainBinding binding;
+    private ToDo mUpdatetoDo;
+    private TodoItemAdapter mItemAdapter;
+    private ToDoViewModel mViewModel;
+    ActivityMainBinding mBinding;
     public static final int REQUEST_CODE = 1;
-    private List<ToDo> itemlist;
+    private List<ToDo> mItemlist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(MainActivity.this, R.layout.activity_main);
-        binding.setActivity(this);
+        mBinding = DataBindingUtil.setContentView(MainActivity.this, R.layout.activity_main);
+        mBinding.setActivity(this);
 
-        binding.add.setOnClickListener(new View.OnClickListener() {
+        mBinding.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, AddToDoActivity.class);
@@ -50,32 +48,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext(), LinearLayoutManager.VERTICAL, false));
-        binding.recyclerView.setHasFixedSize(true);
-        itemAdapter = new TodoItemAdapter();
-        binding.recyclerView.setAdapter(itemAdapter);
-        viewModel = ViewModelProviders.of(this).get(ToDoViewModel.class);
-        viewModel.getAllItems().observe(this, new Observer<List<ToDo>>() {
+        mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext(), LinearLayoutManager.VERTICAL, false));
+        mBinding.recyclerView.setHasFixedSize(true);
+        mItemAdapter = new TodoItemAdapter();
+        mBinding.recyclerView.setAdapter(mItemAdapter);
+        mViewModel = ViewModelProviders.of(this).get(ToDoViewModel.class);
+        mViewModel.getAllItems().observe(this, new Observer<List<ToDo>>() {
             @Override
             public void onChanged(List<ToDo> toDoEntities) {
-                itemAdapter.setTodo(toDoEntities);
-                itemlist =toDoEntities;
+                mItemAdapter.setTodo(toDoEntities);
+                mItemlist =toDoEntities;
             }
         });
 
-        itemAdapter.setOnItemClickListener(new TodoItemAdapter.OnItemClickListerner() {
+        mItemAdapter.setOnItemClickListener(new TodoItemAdapter.OnItemClickListerner() {
             @Override
             public void OnItemClick(ToDo toDos) {
                 if (toDos.getPriority() == 0) {
-                    updatetoDo = new ToDo(toDos.getTitle(), toDos.getDescription(), 1);
+                    mUpdatetoDo = new ToDo(toDos.getTitle(), toDos.getDescription(), 1);
                 } else {
-                    updatetoDo = new ToDo(toDos.getTitle(), toDos.getDescription(), 0);
+                    mUpdatetoDo = new ToDo(toDos.getTitle(), toDos.getDescription(), 0);
                 }
-                updatetoDo.setId(toDos.getId());
-                viewModel.update(updatetoDo);
+                mUpdatetoDo.setId(toDos.getId());
+                mViewModel.update(mUpdatetoDo);
             }
         });
-        binding.search.addTextChangedListener(new TextWatcher() {
+        mBinding.search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -88,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.d(TAG, "afterTextChanged: " + s.toString());
                 filter(s.toString());
             }
         });
@@ -96,13 +93,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void filter(String text) {
         List<ToDo> temp = new ArrayList<>();
-        for (ToDo item : itemlist) {
-            Log.d(TAG, "filter: 1 " + item);
+        for (ToDo item : mItemlist) {
             if (item.getTitle().toLowerCase().contains(text.toLowerCase())) {
-                Log.d(TAG, "filter: " + item.getTitle());
                 temp.add(item);
             }
         }
-        itemAdapter.updateList(temp);
+        mItemAdapter.updateList(temp);
     }
 }

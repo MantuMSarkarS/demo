@@ -13,21 +13,21 @@ import java.util.List;
 
 public class ToDoViewModel extends AndroidViewModel {
 
-    private ToDoRepository repository;
-    private LiveData<List<ToDo>> liveData;
+    private ToDoRepository mRepository;
+    private LiveData<List<ToDo>> mLiveData;
 
     public ToDoViewModel(@NonNull Application application) {
         super(application);
-        repository=new ToDoRepository(application);
-        liveData=repository.getAllItems();
+        mRepository=new ToDoRepository(application);
+        mLiveData=mRepository.getAllItems();
     }
     public void insert(ToDo toDoEntity){
-        repository.insert(toDoEntity);
+        mRepository.insert(toDoEntity);
     }
     public void update(ToDo toDoEntity){
-        repository.update(toDoEntity);
+        mRepository.update(toDoEntity);
     }
     public LiveData<List<ToDo>> getAllItems(){
-        return liveData;
+        return mLiveData;
     }
 }

@@ -16,48 +16,27 @@ import com.example.demo.viewModel.ToDoViewModel;
 
 public class AddToDoActivity extends AppCompatActivity {
 
-    private ToDoViewModel viewModel;
-    private static final String TAG = "todo";
-    ActivityAddToDoBinding binding;
+    private ToDoViewModel mViewModel;
+    ActivityAddToDoBinding mBinding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding= DataBindingUtil.setContentView(AddToDoActivity.this,R.layout.activity_add_to_do);
-        binding.setActivity(this);
-        binding.cencel.setOnClickListener(new View.OnClickListener() {
+        mBinding= DataBindingUtil.setContentView(AddToDoActivity.this,R.layout.activity_add_to_do);
+        mBinding.setActivity(this);
+        mBinding.cencel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(AddToDoActivity.this,MainActivity.class));
             }
         });
-        viewModel = ViewModelProviders.of(this).get(ToDoViewModel.class);
-        binding.done.setOnClickListener(new View.OnClickListener() {
+        mViewModel = ViewModelProviders.of(this).get(ToDoViewModel.class);
+        mBinding.done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //saveToDoItem();
-                ToDo updatetoDo=new ToDo(binding.title.getText().toString(),binding.desc.getText().toString(),0);
-                viewModel.insert(updatetoDo);
+                ToDo updatetoDo=new ToDo(mBinding.title.getText().toString(),mBinding.desc.getText().toString(),0);
+                mViewModel.insert(updatetoDo);
                 finish();
             }
         });
-
-    }
-
-    private void saveToDoItem() {
-        String toDoItemTitle=binding.title.getText().toString();
-        String toDoItemDesc=binding.desc.getText().toString();
-        if(toDoItemTitle.trim().isEmpty()){
-            binding.title.setError("Give an item name");
-            return;
-        }else if(toDoItemDesc.trim().isEmpty()){
-            binding.desc.setError("Give a description");
-            return;
-        }
-        Log.d(TAG, "add : "+toDoItemTitle+" "+toDoItemDesc+" ");
-        Intent data=new Intent();
-        data.putExtra("title",toDoItemTitle);
-        data.putExtra("desc",toDoItemDesc);
-        setResult(RESULT_OK,data);
-        finish();
     }
 }

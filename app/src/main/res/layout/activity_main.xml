@@ -45,7 +45,7 @@
             android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Search for Todo Items"
+            android:hint="@string/search_for_todo_items"
             android:background="@drawable/edittextborder"
             android:layout_margin="10dp"
             android:padding="5dp"/>
